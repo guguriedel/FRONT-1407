@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    // --- Nossas Configurações de Layout ---
+    "rootDir": "./src",
+    "outDir": "./public/js",
+
+    // --- Configurações de Ambiente ---
+    "module": "commonjs",
+    "target": "es2018",
+
+    // --- Outras Saídas ---
+    // Ajuda a depurar o código .ts diretamente no navegador
+    "sourceMap": true,
+
+    // --- Opções de Verificação Estrita (do seu arquivo) ---
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // --- Opções Recomendadas (do seu arquivo) ---
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+    // (Removi a opção "jsx" pois não estamos usando React)
+  },
+  "include": [
+    "src"
+  ]
+}
