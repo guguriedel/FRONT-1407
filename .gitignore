@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts (opcional - pode querer commitar o JS compilado)
+# public/js/*.js
+# public/js/*.js.map
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
