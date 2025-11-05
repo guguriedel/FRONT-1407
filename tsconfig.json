@@ -5,8 +5,9 @@
     "outDir": "./public/js",
 
     // --- Configurações de Ambiente ---
-    "module": "commonjs",
+    "module": "amd",
     "target": "es2018",
+    "outFile": "./public/js/app.js",
 
     // --- Outras Saídas ---
     // Ajuda a depurar o código .ts diretamente no navegador
@@ -18,10 +19,10 @@
 
     // --- Opções Recomendadas (do seu arquivo) ---
     "strict": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
+    // "verbatimModuleSyntax": true,
+    // "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
+    // "moduleDetection": "force",  
     "skipLibCheck": true
     // (Removi a opção "jsx" pois não estamos usando React)
   },

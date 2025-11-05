@@ -1,4 +1,200 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 console.log("TypeScript Funcionando!");
+define("constantes", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.tokenKeyword = exports.backendAddress = void 0;
+    // AcervoApp/src/constantes.ts
+    const backendAddress = 'http://127.0.0.1:8000/';
+    exports.backendAddress = backendAddress;
+    const tokenKeyword = 'Token ';
+    exports.tokenKeyword = tokenKeyword;
+});
+define("index", ["require", "exports", "constantes"], function (require, exports, constantes_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    // Variável global para armazenar o token
+    let token = null;
+    // Etapa 2: Função principal que roda quando a página carrega
+    window.addEventListener('load', () => {
+        token = localStorage.getItem('token');
+        const tabelaCorpo = document.getElementById('tabela-filmes-corpo');
+        const logoutButton = document.getElementById('logout-button');
+        const novoFilmeForm = document.getElementById('novo-filme-form');
+        const novoFilmeErro = document.getElementById('novo-filme-erro');
+        // --- VERIFICAÇÃO DE LOGIN ---
+        if (!token) {
+            // Se não tem token, chuta o usuário para a página de login
+            window.location.replace('login.html');
+            return; // Para a execução do script
+        }
+        // --- CONFIGURAÇÃO DOS EVENTOS ---
+        // Configurar o botão de Logout
+        logoutButton.addEventListener('click', () => {
+            localStorage.removeItem('token'); // Remove o token
+            window.location.replace('login.html'); // Volta ao login
+        });
+        // Configurar o formulário de "Novo Filme"
+        novoFilmeForm.addEventListener('submit', (evento) => {
+            evento.preventDefault();
+            novoFilmeErro.textContent = ''; // Limpa erros antigos
+            // 1. Coletar dados do formulário
+            const nome = document.getElementById('filme-nome').value;
+            const data_visto = document.getElementById('filme-data').value;
+            const nota = document.getElementById('filme-nota').value;
+            const duracao_min = document.getElementById('filme-duracao').value;
+            // 2. Enviar para a API (POST)
+            fetch(constantes_1.backendAddress + 'filmes/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': constantes_1.tokenKeyword + token, // Envia o Token
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome: nome,
+                    data_visto: data_visto,
+                    nota: nota,
+                    duracao_min: duracao_min
+                })
+            })
+                .then(response => {
+                if (response.status === 201) { // 201 CREATED (Sucesso)
+                    novoFilmeForm.reset(); // Limpa o formulário
+                    buscarEPreencherFilmes(); // Atualiza a lista de filmes
+                }
+                else {
+                    throw new Error('Erro ao cadastrar filme. Verifique os campos.');
+                }
+            })
+                .catch(error => {
+                novoFilmeErro.textContent = error.message;
+            });
+        });
+        // --- AÇÃO INICIAL ---
+        // Buscar e preencher a lista de filmes assim que a página carrega
+        buscarEPreencherFilmes();
+    });
+    // --- FUNÇÕES AUXILIARES ---
+    /**
+     * Busca a lista de filmes na API (GET) e preenche a tabela HTML.
+     */
+    function buscarEPreencherFilmes() {
+        if (!token)
+            return; // Se não tiver token, não faz nada
+        const tabelaCorpo = document.getElementById('tabela-filmes-corpo');
+        fetch(constantes_1.backendAddress + 'filmes/', {
+            method: 'GET',
+            headers: {
+                'Authorization': constantes_1.tokenKeyword + token // Envia o Token!
+            }
+        })
+            .then(response => {
+            if (response.status === 401) { // Não autorizado
+                localStorage.removeItem('token');
+                window.location.replace('login.html');
+                throw new Error('Sessão expirada.');
+            }
+            return response.json();
+        })
+            .then(filmes => {
+            // Preencher a tabela com os filmes
+            tabelaCorpo.innerHTML = ''; // Limpa a tabela
+            filmes.forEach((filme) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td>${filme.nome}</td>
+                <td>${filme.data_visto}</td>
+                <td>${filme.nota}</td>
+                <td>${filme.duracao_min}</td>
+                <td>
+                    <button class="delete-btn" data-id="${filme.id}">Deletar</button>
+                </td>
+            `;
+                tabelaCorpo.appendChild(tr);
+            });
+            // Adicionar lógica aos botões "Deletar" recém-criados
+            adicionarEventosDeletar();
+        })
+            .catch(error => console.error('Erro ao buscar filmes:', error));
+    }
+    /**
+     * Adiciona os "ouvintes" de evento de clique a todos os botões "Deletar".
+     */
+    function adicionarEventosDeletar() {
+        if (!token)
+            return;
+        const botoesDeletar = document.querySelectorAll('.delete-btn');
+        botoesDeletar.forEach(botao => {
+            botao.addEventListener('click', () => {
+                const filmeId = botao.dataset.id;
+                if (filmeId) {
+                    deletarFilme(filmeId, token); // token! (non-null assertion) pois já verificamos
+                }
+            });
+        });
+    }
+    /**
+     * Envia a requisição DELETE para a API para um filme específico.
+     */
+    function deletarFilme(id, token) {
+        if (!confirm('Tem certeza que quer deletar este filme?')) {
+            return;
+        }
+        fetch(constantes_1.backendAddress + `filmes/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': constantes_1.tokenKeyword + token,
+            }
+        })
+            .then(response => {
+            if (response.status === 204) { // 204 NO CONTENT (Sucesso)
+                buscarEPreencherFilmes(); // Atualiza a lista
+            }
+            else {
+                throw new Error('Falha ao deletar o filme.');
+            }
+        })
+            .catch(error => alert(error.message));
+    }
+});
+define("login", ["require", "exports", "constantes"], function (require, exports, constantes_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    window.addEventListener('load', () => {
+        const loginForm = document.getElementById('login-form');
+        const mensagemErro = document.getElementById('mensagem-erro');
+        loginForm.addEventListener('submit', (evento) => {
+            evento.preventDefault(); // Impede o envio tradicional do formulário
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            fetch(constantes_2.backendAddress + 'filmes/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'username': username,
+                    'password': password
+                })
+            })
+                .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                else {
+                    throw new Error('Usuário ou senha inválidos.');
+                }
+            })
+                .then((data) => {
+                // Sucesso! Armazena o token no navegador
+                localStorage.setItem('token', data.token);
+                // Redireciona para a página principal
+                window.location.replace('index.html');
+            })
+                .catch(error => {
+                mensagemErro.textContent = error.message;
+            });
+        });
+    });
+});
 //# sourceMappingURL=app.js.map
