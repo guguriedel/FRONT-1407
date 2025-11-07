@@ -2,37 +2,18 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Meu Acervo</title>
-    <script src="./js/app.js" defer></script>
+    <title>Acervo de Filmes</title>
+    <script>
+        // Redireciona para login se não estiver autenticado
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.replace('acervo.html');
+        } else {
+            window.location.replace('login.html');
+        }
+    </script>
 </head>
 <body>
-    <h1>Meu Acervo de Filmes</h1>
-    <button id="logout-button">Sair (Logout)</button>
-    <hr>
-
-    <h2>Adicionar Novo Filme</h2>
-    <form id="novo-filme-form">
-        <input type="text" id="filme-nome" placeholder="Nome do Filme" required>
-        <input type="date" id="filme-data" required>
-        <input type="number" id="filme-nota" placeholder="Nota (ex: 8.5)" step="0.1" min="0" max="10" required>
-        <input type="number" id="filme-duracao" placeholder="Duração (min)" required>
-        <button type="submit">Adicionar Filme</button>
-    </form>
-    <div id="novo-filme-erro" style="color: red;"></div>
-    <hr>
-    <h2>Filmes Vistos</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Data que Viu</th>
-                <th>Nota</th>
-                <th>Duração (min)</th>
-                <th>Ações</th> 
-            </tr>
-        </thead>
-        <tbody id="tabela-filmes-corpo">
-            </tbody>
-    </table>
+    <p>Redirecionando...</p>
 </body>
 </html>

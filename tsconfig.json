@@ -5,26 +5,20 @@
     "outDir": "./public/js",
 
     // --- Configurações de Ambiente ---
-    "module": "amd",
+    "module": "none",
     "target": "es2018",
-    "outFile": "./public/js/app.js",
 
     // --- Outras Saídas ---
     // Ajuda a depurar o código .ts diretamente no navegador
     "sourceMap": true,
 
-    // --- Opções de Verificação Estrita (do seu arquivo) ---
+    // --- Opções de Verificação Estrita ---
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
-    // --- Opções Recomendadas (do seu arquivo) ---
+    // --- Opções Recomendadas ---
     "strict": true,
-    // "verbatimModuleSyntax": true,
-    // "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    // "moduleDetection": "force",  
     "skipLibCheck": true
-    // (Removi a opção "jsx" pois não estamos usando React)
   },
   "include": [
     "src"

@@ -1,8 +1,8 @@
-import { backendAddress } from "./constantes";
-import { tokenKeyword } from "./constantes";
+// AcervoApp/src/login.ts
+// Lógica de login - depende de constantes.ts
 
-
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Página de login carregada!');
     const loginForm = document.getElementById('login-form') as HTMLFormElement;
     const mensagemErro = document.getElementById('mensagem-erro') as HTMLDivElement;
 
@@ -31,9 +31,9 @@ window.addEventListener('load', () => {
         })
         .then((data: { token: string }) => {
             // Sucesso! Armazena o token no navegador
-            localStorage.setItem('token', data.token); 
+            localStorage.setItem('token', data.token);
             // Redireciona para a página principal
-            window.location.replace('index.html');
+            window.location.replace('acervo.html');
         })
         .catch(error => {
             mensagemErro.textContent = error.message;
