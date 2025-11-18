@@ -10,46 +10,48 @@
 </head>
 <body>
     <div class="container">
-        <h1>Criar Nova Conta</h1>
+        <h1>Crie sua conta</h1>
+        <p>Comece a organizar seus filmes hoje.</p>
         
         <form id="register-form">
             <div>
-                <label for="username">Usuário (Login):</label>
-                <input type="text" id="username" required>
+                <label for="username">Usuário</label>
+                <input type="text" id="username" placeholder="Ex: cinefilo123" required>
             </div>
             
             <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" required>
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <label for="first_name">Nome</label>
+                    <input type="text" id="first_name">
+                </div>
+                <div>
+                    <label for="last_name">Sobrenome</label>
+                    <input type="text" id="last_name">
+                </div>
             </div>
 
             <div>
-                <label for="first_name">Nome:</label>
-                <input type="text" id="first_name">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="••••••••" required>
             </div>
 
             <div>
-                <label for="last_name">Sobrenome:</label>
-                <input type="text" id="last_name">
+                <label for="password_confirm">Confirme a Senha</label>
+                <input type="password" id="password_confirm" placeholder="••••••••" required>
             </div>
 
-            <div>
-                <label for="password">Senha:</label>
-                <input type="password" id="password" required>
-            </div>
-
-            <div>
-                <label for="password_confirm">Confirme a Senha:</label>
-                <input type="password" id="password_confirm" required>
-            </div>
-
-            <button type="submit">Registrar</button>
+            <button type="submit">Criar Conta</button>
         </form>
 
-        <div id="mensagem-erro" style="color: red; margin-top: 10px;"></div>
+        <div id="mensagem-erro" style="color: var(--danger); margin-top: 1rem;"></div>
         
         <hr>
-        <p>Já tem uma conta? <a href="login.html">Fazer Login</a></p>
+        <p style="margin-bottom: 0;">Já tem uma conta? <a href="login.html">Fazer Login</a></p>
     </div>
 </body>
 </html>

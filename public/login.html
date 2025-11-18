@@ -2,26 +2,36 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Acervo de Filmes</title>
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-    <h1>Login do Acervo</h1>
-    <form id="login-form">
-        <div>
-            <label for="username">Usuário:</label>
-            <input type="text" id="username" required>
-        </div>
-        <div>
-            <label for="password">Senha:</label>
-            <input type="password" id="password" required>
-        </div>
-        <button type="submit">Entrar</button>
-        <p>Ainda não tem conta? <a href="register.html">Registrar-se</a></p>
-        <a href="password-reset.html">Esqueci minha senha</a>
-    </form>
-    <div id="mensagem-erro" style="color: red;"></div>
+    <div class="container">
+        <h1>Bem-vindo de volta</h1>
+        <p>Faça login para gerenciar seu acervo.</p>
+        
+        <form id="login-form">
+            <div>
+                <label for="username">Usuário</label>
+                <input type="text" id="username" placeholder="Seu usuário" required>
+            </div>
+            <div>
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
 
-    <!-- Carrega as constantes primeiro, depois o login -->
+        <div id="mensagem-erro" style="color: var(--danger); margin-top: 1rem;"></div>
+
+        <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
+            <a href="password-reset.html" style="color: var(--text-secondary); font-size: 0.8rem;">Esqueci minha senha</a>
+            <br><br>
+            Não tem uma conta? <a href="register.html"><strong>Registre-se agora</strong></a>
+        </div>
+    </div>
+
     <script src="./js/constantes.js"></script>
     <script src="./js/login.js"></script>
 </body>
