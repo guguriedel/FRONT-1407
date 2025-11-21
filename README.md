@@ -101,8 +101,8 @@ Você também pode abrir o arquivo `public/login.html` diretamente no navegador,
 - **Frontend Local**: http://localhost:8080/
 - **Backend API**: http://127.0.0.1:8000/
 - **Swagger Backend**: http://127.0.0.1:8000/swagger/
-- **Frontend Publicado**: [URL quando publicado]
-- **Backend Publicado**: [URL quando publicado]
+- **Frontend Publicado**: https://guguriedel.pythonanywhere.com/
+- **Backend Publicado**: 
 
 ## 📖 Manual do Usuário
 
