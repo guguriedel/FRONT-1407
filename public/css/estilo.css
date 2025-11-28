@@ -1,8 +1,6 @@
-/* Importando fonte Inter do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    /* Paleta de Cores Dark Theme */
     --background: #121214;
     --surface: #202024;
     --surface-hover: #29292e;
@@ -12,8 +10,6 @@
     --primary-hover: #9466ff;
     --danger: #e55050;
     --border: #323238;
-    
-    /* Espaçamentos e Tamanhos */
     --radius: 8px;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
@@ -59,7 +55,7 @@ button {
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
     font-size: 0.95rem;
-    width: 100%; /* Padrão para formulários */
+    width: 100%;
 }
 
 button:hover {
@@ -70,7 +66,6 @@ button:active {
     transform: scale(0.98);
 }
 
-/* Botões secundários ou pequenos */
 button.secondary {
     background-color: var(--surface);
     border: 1px solid var(--border);
@@ -80,7 +75,6 @@ button.secondary:hover {
     background-color: var(--surface-hover);
 }
 
-/* Botão de Perigo (Logout/Delete) */
 button.danger, .delete-btn {
     background-color: var(--danger);
 }
@@ -88,7 +82,6 @@ button.danger:hover, .delete-btn:hover {
     filter: brightness(1.1);
 }
 
-/* --- Layout Containers --- */
 .container {
     background-color: var(--surface);
     padding: 2.5rem;
@@ -99,12 +92,11 @@ button.danger:hover, .delete-btn:hover {
     border: 1px solid var(--border);
 }
 
-/* Container maior para o Acervo */
 .container-xl {
     width: 90%;
     max-width: 1000px;
     margin: 2rem auto;
-    align-items: stretch; /* Para não centralizar verticalmente */
+    align-items: stretch; 
 }
 
 h1 {
@@ -127,7 +119,6 @@ hr {
     margin: 1.5rem 0;
 }
 
-/* --- Formulários --- */
 form {
     display: flex;
     flex-direction: column;
@@ -157,14 +148,12 @@ input:focus {
     border-color: var(--primary);
 }
 
-/* Grid para inputs lado a lado (Nome/Sobrenome) */
 .input-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
-/* --- Tabela (Acervo) --- */
 .table-container {
     overflow-x: auto;
     border-radius: var(--radius);
@@ -210,7 +199,6 @@ tr:hover {
     width: auto;
 }
 
-/* --- Header do Dashboard --- */
 .dashboard-header {
     display: flex;
     justify-content: space-between;
@@ -224,12 +212,11 @@ tr:hover {
 }
 
 .dashboard-actions button {
-    width: auto; /* Botões do header não ocupam 100% */
+    width: auto; 
 }
 
-/* --- Mensagens de Erro/Sucesso --- */
 #mensagem-erro, #novo-filme-erro, #mensagem-status {
     font-size: 0.85rem;
     text-align: center;
-    min-height: 1.2rem; /* Evita pulo de layout */
+    min-height: 1.2rem; 
 }

@@ -1,5 +1,4 @@
-// Lógica de solicitação de reset de senha
-// Assume que backendAddress está disponível globalmente (via constantes.js)
+// logica de solicitacao de reset de senha\
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('reset-form') as HTMLFormElement;
@@ -13,9 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = (document.getElementById('email') as HTMLInputElement).value;
 
         try {
-            // O endpoint padrão da biblioteca é 'password_reset/' (sem 'filmes/' antes, 
-            // a menos que tenhamos colocado o include dentro de 'filmes/' no urls.py)
-            // Vamos confirmar: no seu urls.py, você incluiu dentro de 'filmes/', então é:
+            // endpoint padrão da biblioteca é password_reset/
             const response = await fetch(backendAddress + 'filmes/password_reset/', {
                 method: 'POST',
                 headers: {

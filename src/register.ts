@@ -1,4 +1,4 @@
-// Lógica de registro - depende de constantes.ts
+// logica de registro - depende de constantes.ts
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('register-form') as HTMLFormElement;
@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        msgErro.textContent = ''; // Limpa mensagens anteriores
+        msgErro.textContent = ''; // limpa mensagens anteriores
 
-        // 1. Capturar dados do formulário
+        // captura dados do formulario
         const username = (document.getElementById('username') as HTMLInputElement).value;
         const email = (document.getElementById('email') as HTMLInputElement).value;
         const firstName = (document.getElementById('first_name') as HTMLInputElement).value;
@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = (document.getElementById('password') as HTMLInputElement).value;
         const passwordConfirm = (document.getElementById('password_confirm') as HTMLInputElement).value;
 
-        // 2. Validação básica no frontend
+        // valida o frontend
         if (password !== passwordConfirm) {
             msgErro.textContent = "As senhas não conferem!";
             return;
         }
 
-        // 3. Montar o objeto de dados
+        // monta o objeto de dados
         const userData = {
             username: username,
             email: email,
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            // 4. Enviar para o Backend
+            // envia pro back
             const response = await fetch(backendAddress + 'filmes/register/', {
                 method: 'POST',
                 headers: {
@@ -45,25 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (response.ok) {
-                // SUCESSO! O backend retorna o token e os dados do usuário
-                // Vamos fazer login automático
+                // o back retorna o token e os dados do usuário
+                // login automático
                 console.log("Registro realizado com sucesso!");
                 
                 if (data.token) {
                     localStorage.setItem('token', data.token);
                     alert("Conta criada com sucesso! Você será redirecionado.");
-                    window.location.replace('acervo.html'); // Vai para a página do acervo
+                    window.location.replace('acervo.html'); // vai para a página do acervo
                 } else {
-                    // Caso raro onde cria mas não retorna token, manda pro login
+                    // cria mas não retorna token, manda pro login
                     window.location.replace('login.html');
                 }
 
             } else {
-                // ERRO DO BACKEND (Ex: usuário já existe, senha fraca, etc)
-                // O Django retorna erros detalhados, vamos tentar mostrá-los
+                //  usuário já existe, senha fraca, etc
                 let erroTexto = data.detail || 'Erro ao registrar.';
                 
-                // Tenta formatar os erros do Django (que vêm como objeto)
+                // tenta formatar os erros do django 
                 if (typeof data === 'object' && !data.detail) {
                     erroTexto = Object.entries(data)
                         .map(([campo, msgs]) => `${campo}: ${Array.isArray(msgs) ? (msgs as string[]).join(', ') : msgs}`)

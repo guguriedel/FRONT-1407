@@ -5,7 +5,7 @@ Interface web para gerenciamento de filmes assistidos desenvolvida com TypeScrip
 ## 👥 Componentes do Grupo
 
 - Gustavo Riedel 2210375
-- Rodrigo Kauer 211
+- Rodrigo Kauer 2111468
 
 ## 📝 Descrição do Projeto
 

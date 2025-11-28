@@ -1,10 +1,9 @@
 // AcervoApp/src/index.ts
-// Lógica da página de acervo - depende de constantes.ts
+// depende de constantes.ts
 
-// Variável global para armazenar o token
 let token: string | null = null;
 
-// Função principal que roda quando a página carrega
+// roda quando a pagina carrega
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Página de acervo carregada!');
 
@@ -18,37 +17,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const novoFilmeForm = document.getElementById('novo-filme-form') as HTMLFormElement | null;
     const novoFilmeErro = document.getElementById('novo-filme-erro') as HTMLDivElement | null;
 
-    // --- VERIFICAÇÃO DE LOGIN ---
+    // verifica o login
     if (!token) {
-        // Se não tem token, chuta o usuário para a página de login
+        // se não tem token, joga o usuário p a pag de login
         window.location.replace('login.html');
         return; // Para a execução do script
     }
 
-    // --- CONFIGURAÇÃO DOS EVENTOS ---
+    // configuração dos eventos
 
-    // Configurar o botão de Logout
+    // botao de logout
     logoutButton?.addEventListener('click', () => {
-        localStorage.removeItem('token'); // Remove o token
-        window.location.replace('login.html'); // Volta ao login
+        localStorage.removeItem('token'); // remove o token
+        window.location.replace('login.html'); // volta ao login
     });
 
-    // Configurar o formulário de "Novo Filme"
+    // configurar o formulário de novo filme
     novoFilmeForm?.addEventListener('submit', (evento) => {
         evento.preventDefault();
-        if(novoFilmeErro) novoFilmeErro.textContent = ''; // Limpa erros antigos
+        if(novoFilmeErro) novoFilmeErro.textContent = ''; // limpa erros antigos
 
-        // 1. Coletar dados do formulário
+        // dados do formulário
         const nome = (document.getElementById('filme-nome') as HTMLInputElement).value;
         const data_visto = (document.getElementById('filme-data') as HTMLInputElement).value;
         const nota = (document.getElementById('filme-nota') as HTMLInputElement).value;
         const duracao_min = (document.getElementById('filme-duracao') as HTMLInputElement).value;
 
-        // 2. Enviar para a API (POST)
+        // enviar para a  (POST)
         fetch(backendAddress + 'filmes/', {
             method: 'POST',
             headers: {
-                'Authorization': tokenKeyword + token, // Envia o Token
+                'Authorization': tokenKeyword + token, // envia o Token
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -59,9 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
         .then(response => {
-            if (response.status === 201) { // 201 CREATED (Sucesso)
-                novoFilmeForm.reset(); // Limpa o formulário
-                buscarEPreencherFilmes(); // Atualiza a lista de filmes
+            if (response.status === 201) { // 201 cirado, ou seja sucesso
+                novoFilmeForm.reset(); // limpa o formulário
+                buscarEPreencherFilmes(); // atualiza a lista de filmes
             } else if (response.status === 401) { // Não autorizado
                 localStorage.removeItem('token');
                 window.location.replace('login.html');
@@ -75,30 +74,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- AÇÃO INICIAL ---
-    // Buscar e preencher a lista de filmes assim que a página carrega
+    // buscar e preencher a lista de filmes assim que a página carrega
     buscarEPreencherFilmes();
 });
 
+// busca a lista de filmes na API (GET) e preenche a tabela HTML
 
-// --- FUNÇÕES AUXILIARES ---
-
-/**
- * Busca a lista de filmes na API (GET) e preenche a tabela HTML.
- */
 function buscarEPreencherFilmes(): void {
-    if (!token) return; // Se não tiver token, não faz nada
+    if (!token) return; // se não tiver token, não faz nada
 
     const tabelaCorpo = document.getElementById('tabela-filmes-corpo') as HTMLTableSectionElement || null;
 
     fetch(backendAddress + 'filmes/', {
         method: 'GET',
         headers: {
-            'Authorization': tokenKeyword + token // Envia o Token!
+            'Authorization': tokenKeyword + token // envia token
         }
     })
     .then(response => {
-        if (response.status === 401) { // Não autorizado
+        if (response.status === 401) { // quando nao autoriza
             localStorage.removeItem('token');
             window.location.replace('login.html');
             throw new Error('Sessão expirada.');
@@ -106,10 +100,10 @@ function buscarEPreencherFilmes(): void {
         return response.json();
     })
     .then(filmes => {
-        // Preencher a tabela com os filmes
+        // preencher a tabela com os filmes
 
         if (!tabelaCorpo) return;
-        tabelaCorpo.innerHTML = ''; //Limpa
+        tabelaCorpo.innerHTML = ''; //limpa
 
         filmes.forEach((filme: any) => {
             const tr = document.createElement('tr');
@@ -128,16 +122,14 @@ function buscarEPreencherFilmes(): void {
             tabelaCorpo.appendChild(tr);
         });
 
-        // Adicionar lógica aos botões "Deletar" e "Editar"
+        // adicionaa logica aos botoes de delete e edit
         adicionarEventosEditar();
         adicionarEventosDeletar();
     })
     .catch(error => console.error('Erro ao buscar filmes:', error));
 }
 
-/**
- * Adiciona os "ouvintes" de evento de clique a todos os botões "Deletar".
- */
+// adiciona os "ouvintes" de evento de clique a todos os botões delet
 function adicionarEventosDeletar(): void {
     if (!token) return;
 
@@ -146,7 +138,7 @@ function adicionarEventosDeletar(): void {
         botao.addEventListener('click', () => {
             const filmeId = (botao as HTMLElement).dataset.id;
             if (filmeId) {
-                deletarFilme(filmeId, token!); // token! (non-null assertion) pois já verificamos
+                deletarFilme(filmeId, token!); // token! (non-null assertion) pq já verificamos
             }
         });
     });
@@ -174,7 +166,7 @@ function adicionarEventosEditar(): void {
                 const duracao_min = prompt('Duração (min):', String(atual.duracao_min)) ?? atual.duracao_min;
 
 
-                // 3) PUT com os campos editados
+                // PUT com os campos editados
                 const upd = await fetch(backendAddress + `filmes/${id}/`, {
                   method: 'PUT',
                   headers: {
@@ -185,7 +177,7 @@ function adicionarEventosEditar(): void {
                 });
                 if (!upd.ok) { alert('Falha ao atualizar.'); return; }
 
-                // 4) Atualiza a lista
+                // atualiza a lista
                 buscarEPreencherFilmes();
               } catch (e: any) {
                 alert(e.message ?? 'Erro ao editar.');
@@ -195,15 +187,13 @@ function adicionarEventosEditar(): void {
             });
 }
 
-/**
- * Envia a requisição DELETE para a API para um filme específico.
- */
+// envia a requisição DELETE para a API para um filme específico
 function deletarFilme(id: string, token: string): void {
     if (!confirm('Tem certeza que quer deletar este filme?')) {
         return;
     }
 
-    fetch(backendAddress + `filmes/${id}/`, { // Usa o endpoint de detalhe
+    fetch(backendAddress + `filmes/${id}/`, { // usa o endpoint de detalhe
         method: 'DELETE',
         headers: {
             'Authorization': tokenKeyword + token,
@@ -211,7 +201,7 @@ function deletarFilme(id: string, token: string): void {
     })
     .then(response => {
         if (response.status === 204) { // 204 NO CONTENT (Sucesso)
-            buscarEPreencherFilmes(); // Atualiza a lista
+            buscarEPreencherFilmes(); // atualiza a lista
         } else {
             throw new Error('Falha ao deletar o filme.');
         }

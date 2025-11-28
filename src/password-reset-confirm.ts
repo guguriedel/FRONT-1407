@@ -1,12 +1,11 @@
-// Lógica de confirmação de reset
-// Assume que backendAddress está disponível globalmente
+// logica de confirmação de reset
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('confirm-form') as HTMLFormElement;
     const msgDiv = document.getElementById('mensagem') as HTMLDivElement;
     const tokenInput = document.getElementById('token') as HTMLInputElement;
 
-    // 1. Pegar o token da URL (ex: ?token=12345)
+    // pega o token da URL
     const urlParams = new URLSearchParams(window.location.search);
     const tokenUrl = urlParams.get('token');
 
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // O endpoint de confirmação da biblioteca
+            // endpoint de confirmação da biblioteca
             const response = await fetch(backendAddress + 'filmes/password_reset/confirm/', {
                 method: 'POST',
                 headers: {
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.replace('login.html');
             } else {
                 const data = await response.json();
-                // A biblioteca costuma retornar erros detalhados em 'password' ou 'token'
+                // biblioteca costuma retornar erros detalhados em password ou token
                 let errorMsg = 'Erro ao redefinir.';
                 if (data.password) errorMsg = data.password[0];
                 if (data.token) errorMsg = data.token[0];

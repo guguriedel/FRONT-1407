@@ -1,5 +1,5 @@
 // AcervoApp/src/login.ts
-// Lógica de login - depende de constantes.ts
+// depende de constantes.ts
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Página de login carregada!');
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mensagemErro = document.getElementById('mensagem-erro') as HTMLDivElement;
 
     loginForm.addEventListener('submit', (evento) => {
-        evento.preventDefault(); // Impede o envio tradicional do formulário
+        evento.preventDefault(); // impede o envio tradicional do formulário
 
         const username = (document.getElementById('username') as HTMLInputElement).value;
         const password = (document.getElementById('password') as HTMLInputElement).value;
@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
         .then((data: { token: string }) => {
-            // Sucesso! Armazena o token no navegador
+            // armazena o token do navegador
             localStorage.setItem('token', data.token);
-            // Redireciona para a página principal
+            // redireciona para a página principal
             window.location.replace('acervo.html');
         })
         .catch(error => {
